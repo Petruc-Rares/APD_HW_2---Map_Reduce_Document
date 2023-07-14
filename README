@@ -1,0 +1,44 @@
+                                        Tema 2 APD
+Petruc Rares - 336 CA
+
+    In cadrul temei mele am urmatoarele fisiere:
+- Tema2: nucleul temei, apeleaza functiile de citire si scriere in fisiere,
+         atribuie taskurile workerilor si initializeaza structuri de date
+         ce vor fi folosite in alte fisiere .java;
+
+         tot aici am ales sa calculez si rangul fisierelor, tot paralelizand
+         folosind FibonacciCalculator implementat la laborator;
+
+- MyRunnableMap: se ocupa cu procesarea fragmentelor, in urma rularii acestui
+                 tip de task reiesind informatii despre numarul de cuvinte de
+                 fiecare dimensiune, cuvintele de lungime maxima;
+
+- MyRunnableMerge: se ocupa cu combinarea datelor din fragmentele dintr-un
+                   fisier anume (map-urile de la dimensiune cuvinte la nr cuvinte,
+                   cuvintele de lungime maxima din diverse fragmente);
+
+- ResultMapFormat: clasa folosita pentru stocarea obiectelor intoarse in urma
+                   rularii MyRunnableMap, in formatul precizat si in enunt;
+
+- OutputFormat:    am ales sa am o clasa in care sa am campurile necesare scrierii
+                   in fisierul de output, alaturi de campul de idxFile, ce ajuta
+                   in cadrul comparatorului de OutputFormat din main, in caz de
+                   egalitate la calculul rangului.
+
+Dificultati intampinate: Am avut o problema cu map-ul partialFilesMapping din Tema2
+                         intrucat in MyRunnableMap mai multe threaduri puteau da
+                         get pe acelasi index de fisier si se putea ca un thread
+                         mai rapid sa nu fi actualizat inca valoarea pe care alt
+                         thread dadea get (deci aveam race condition). Am observat
+                         problema dupa cateva rulari succesive si am decis sa
+                         modific dintr-un map Simplu in concurrentMap si sa initalizez
+                         listele corespunzatoare din Values ca liste sincrone.
+
+                         Alta problema am avut-o cu verificarea faptului ca toate
+                         taskurile dintr-un pool au fost executate, pentru ca initial
+                         facusem un while(!(tpe.isShutdown()); insa am citit ca nu este
+                         suficient si am gasit solutia, folosind await.
+
+Feedback tema: Tema a fost usoara-medie. Mi-a luat aproximativ 1 zi ca sa o gandesc
+               si sa o implementez. Mi-a placut ideea generala, cu siguranta am
+               inteles lucrurile discutate la laborator mai bine acum.
